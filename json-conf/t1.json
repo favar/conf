@@ -1,0 +1,14 @@
+{
+  "User": "root",
+  "Password": "123456",
+  "Host": "localhost",
+  "Port": 3306,
+  "Db": "qq_game",
+  "IsIos": true,
+  "Strings":["a","b","c"],
+  "Account": {
+    "Id": 1223,
+    "Age": 12,
+    "Name": "cxcc"
+  }
+}
