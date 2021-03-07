@@ -61,7 +61,10 @@ func Test1(t *testing.T) {
 func Test_Conf(t *testing.T) {
 
 	cnf, _ := Builder().
-		AddJsonFiles("json-conf/t1.json", "json-conf/t2.json").
+		AddFiles("json-conf/t1.json", "json-conf/t2.json").
+		OnSetting(func(setting *ConfigurationSetting) {
+			setting.Catcher = nil
+		}).
 		Build()
 
 	var s string
@@ -71,14 +74,46 @@ func Test_Conf(t *testing.T) {
 	s = ""
 	err = cnf.Get("zzz-Node1", &s)
 	fmt.Println("value:", s, err)
+
+	infos := cnf.GetProviderInfo()
+	fmt.Println(len(infos), infos)
 }
 
-func Test2(t *testing.T) {
-	path := "json-conf/t2.json"
-	file, _ := os.Open(path)
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	var c interface{}
-	decoder.Decode(&c)
-	fmt.Println("type:", reflect.TypeOf(c).Kind())
+func Test_Conf_Files(t *testing.T) {
+
+	cnf, _ := Builder().
+		AddFiles("json-conf/*.json").
+		OnSetting(func(setting *ConfigurationSetting) {
+			setting.Catcher = nil
+		}).
+		Build()
+
+	var s string
+	err := cnf.Get("Host", &s)
+	fmt.Println("value:", s, err)
+
+	s = ""
+	err = cnf.Get("zzz-Node1", &s)
+	fmt.Println("value:", s, err)
+
+	infos := cnf.GetProviderInfo()
+	fmt.Println(len(infos), infos)
+}
+
+func Test_Include(t *testing.T) {
+
+	cnf, _ := Builder().
+		Include("json-conf").
+		Build()
+
+	var s string
+	err := cnf.Get("Host", &s)
+	fmt.Println("value:", s, err)
+
+	s = ""
+	err = cnf.Get("zzz-Node1", &s)
+	fmt.Println("value:", s, err)
+
+	err = cnf.Get("xx", &s)
+	fmt.Println("xx node value:", s, err)
 }

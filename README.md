@@ -1,2 +1,2 @@
 # conf
- go config with Multiple config-source
+ go configuration with Multiple config-source

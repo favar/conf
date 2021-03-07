@@ -9,17 +9,23 @@ func (err NotFoundError) Error() string {
 }
 
 type ConfigurationSource interface {
-	Path() string
+	Id() string
 	SourceId() string
-	//Build() (ConfigurationProvider, error)
+	String() string
 }
 
 type ConfigurationProvider interface {
 	Load() error
 	Get(key string, addr interface{}) error
+	String() string
 }
 
 type Configuration interface {
 	Get(key string, ref interface{}) error
 	AddProvider(provider ConfigurationProvider)
+	GetProviderInfo() []string
+}
+
+type ReloadError interface {
+	Catch(err error)
 }

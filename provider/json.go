@@ -12,8 +12,12 @@ type provider struct {
 	parser core.Parser
 }
 
+func (p *provider) String() string {
+	return p.source.String()
+}
+
 func (p *provider) Load() error {
-	file, err := os.Open(p.source.Path())
+	file, err := os.Open(p.source.Id())
 	if err != nil {
 		return err
 	}
@@ -24,7 +28,7 @@ func (p *provider) Load() error {
 	if s, ok := v.(map[string]interface{}); ok {
 		p.parser = core.JsonParser(s)
 	} else {
-		err = fmt.Errorf("path[%s] is not map[string]interface{}", p.source.Path())
+		err = fmt.Errorf("path[%s] is not map[string]interface{}", p.source.Id())
 	}
 	return err
 }

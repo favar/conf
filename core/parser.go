@@ -10,7 +10,6 @@ import (
 
 type Parser interface {
 	Get(key string, node interface{}) error
-	GetNode(key string) (interface{}, error)
 	Clear()
 }
 

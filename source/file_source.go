@@ -9,11 +9,15 @@ type source struct {
 	path string
 }
 
+func (s source) String() string {
+	return s.path
+}
+
 func (s source) SourceId() string {
 	return strings.ToLower(s.path)
 }
 
-func (s source) Path() string {
+func (s source) Id() string {
 	return s.path
 }
 
